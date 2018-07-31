@@ -1,0 +1,16 @@
+{% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" href="data:,">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Django Template</title>
+  </head>
+  <body>
+    <div id="root">
+
+    </div>
+      {% render_bundle "main" %}
+  </body>
+</html>

@@ -1,0 +1,31 @@
+.section{
+    max-width: 335px;
+    margin: 0px auto;
+    padding-top: 30px;
+    
+}
+
+.optional{
+    margin-top: 5px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-flow: row nowrap;
+
+}
+.signup{
+    max-width: 250px;
+    padding-left: 10px;
+}
+.forget{
+    padding-right: 10px;
+    max-width: 250px;
+}
+._sup{
+    text-align: left;
+}
+._fgps{
+    text-align: right;
+}

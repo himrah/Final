@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+{% block title %}Registration{% endblock %}
+{% block content %}
+<style>
+    .row{
+        flex-flow: row nowrap;
+    }
+    .rowleft{
+        width: 215px;
+    }
+    .rowright{
+        width: 80px;
+        padding: 20px;
+    }
+    .lbl{
+        font-size: 14px;
+        text-align: center;
+        color:red;
+    }
+
+</style>
+<div class="main-login">
+<section class="section-login">
+    <div class="login_box">
+
+    </div>   
+</section>
+</div>
+{% endblock %}
+
+
+{% block script %}
+<script type="text/javascript">
+
+    $(document).on('submit','#login_form',function(e){
+        e.preventDefault()
+        $.ajax({
+            type:'POST',
+            url:'/auth/',
+            data:{
+                username:$('#id_username').val(),
+                password:$('#id_password').val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+            },
+            beforeSend:function(){
+                $('#lgnbtn').val("please wait...")
+            },
+            complete:function(){
+                $('#lgnbtn').val("Login")
+            },
+            success:function(e){
+                if(e=='user'){
+                    $('#passworderror').empty()
+                    $('#usererror').text("username is not correct")
+                }
+                else if(e=='password')
+                {
+                    $('#usererror').empty()
+                $('#passworderror').text("Password is incorrect")
+                }
+                else if(e=='ok'){
+                    window.location.href="/"
+                }
+            }
+        })
+    })
+
+
+    $(document).on("submit","#reg",function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:'/accounts',
+            data:{
+                username:$('#id_username').val(),
+                first_name:$('#id_first_name').val(),
+                last_name:$('#id_last_name').val(),
+                password1:$('#id_password1').val(),
+                password2:$('#id_password2').val(),
+                email:$('#email').val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()                
+            },
+            beforeSend:function(){
+                $('#signupbtn').val("please wait...")
+            },
+            complete:function(){
+              $('#signupbtn').val('Sign Up')  
+            },
+            success:function(e){
+                if(e=='user'){
+                    var us = $('#id_username').val()
+                    d=us+" is already exist choose another"
+                    console.log(us)
+                    console.log(d)
+                    $('#emailerror').empty()
+                    $('#usererror').text(d)
+                }
+                else if(e=='email'){
+                    $('#usererror').empty()
+                    $('#emailerror').text("this email already exist")
+                }
+                else if(e=='ok'){
+                    window.location.href = '/login/'
+                }
+            }
+
+        })
+    });
+</script>
+{% endblock %}
+
+
+{% block backbone %}
+
+<script type="text/template" id='login-form'>
+    <form action="/auth/" method="post" id="login_form">
+        {% csrf_token %}
+        <div class="grp">
+            <div class="frmc">
+                {{login_form.username}}
+            </div>
+            <span id="usererror" class="lbl"></span>
+        </div>
+
+        <div class="grp">
+            <div class="frmc">
+                {{login_form.password}}
+            </div>
+            <span id="passworderror" class="lbl"></span>
+        </div>
+
+            <input type="submit" class="btn" id="lgnbtn" value="Login">
+            <div class="optional">
+                <div class="signup">
+                    <span class="_sup"><a href="#registration">Sign Up</a></span>
+                </div>
+                <div class="forget">
+                    <span class="_fgps"><a href="#">Forget Password ?</a></span>
+                </div>
+            </div>
+        <div style="align:center;">
+            <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
+        </div>    
+
+    </form>
+</script>
+
+
+
+
+<script type="text/template" id='registration-form'>
+    <form action="/registration" method="post" id="reg">
+        {% csrf_token %}
+    <div class="grp">
+        <div class="frmc">
+            {{form.username}}
+        </div>
+        <span id="usererror" class="lbl"></span>
+    </div>
+    {{form.first_name}}
+    {{form.last_name}}
+    <div class="grp">
+        <div class="frmc">
+            {{form.email}}
+        </div>
+        <span id="emailerror" class="lbl"></span>
+    </div>
+    {{form.password1}}
+    {{form.password2}}
+         <input type="submit" value="Sign Up" id="signupbtn" class="btn">
+         <div style="text-align:center;margin-top:5px;">
+         <span><a href="#login">Already Memeber</a></span>
+         </div>
+        </form>
+</script>
+
+<script>
+
+
+    var Preview = Backbone.View.extend({
+        login:function(e){
+            var template = _.template($('#login-form').html())
+            $('.login_box').html(template())
+        },
+        registration:function(e){
+            var template = _.template($('#registration-form').html())
+            $('.login_box').html(template())
+        }
+    })
+
+
+    pview = new Preview()
+
+
+
+    var Router = Backbone.Router.extend({
+        routes:{
+        '':'home',
+        'login':'login',
+        'registration':'registration'
+        }
+    });
+    var router = new Router()
+    router.on('route:home',function(){
+        console.log('home')
+        pview.registration()
+    });
+    router.on('route:login',function(){
+        console.log('login')
+        pview.login()
+    })
+    router.on('route:registration',function(){
+        pview.registration()
+    })
+    Backbone.history.start();
+</script>
+{% endblock %}
