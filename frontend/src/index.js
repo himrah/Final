@@ -7,7 +7,7 @@ import {ApolloProvider} from 'react-apollo'
 import Loading from './loading'
 import Loadable from 'react-loadable'
 import registerServiceWorker from './registerServiceWorker';
-
+import './components/in.css';
 const AAp = Loadable({
     loader:()=>import('./App'),
     loading:Loading

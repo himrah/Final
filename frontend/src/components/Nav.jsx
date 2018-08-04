@@ -12,12 +12,32 @@ import msg from  './Images/msg.png'
 import logout from  './Images/logout.png'
 import { mapStateToProps,mapDispatchToProps } from './others/MapsProps'
 import {connect} from 'react-redux' 
+import gql from 'graphql-tag'
+import { graphql, compose } from 'react-apollo'
+//import graphql from '../../node_modules/graphql-anywhere';
+//import { QueryDocumentKeys } from '../../node_modules/@types/graphql/language/visitor';
 
 const Main = Loadable({
     loader: () => import('./Main'),
     loading : Loading
 })
-
+const userqury = gql`query user{
+  currentUser{
+      id
+      username
+      firstName
+      lastName
+      profile{
+        fb
+        instagram
+        website
+        twitter
+        gender
+        about
+        birthDay
+      }
+  }
+}`
 
 const Interest = Loadable({
     loader: () => import('./Interest'),
@@ -86,7 +106,14 @@ class Nav extends React.Component{
     
     render(){
         //var token=localStorage.getItem('token')
-        
+        //console.log(this.props.current.currentUser.username)
+        /*if(this.props.current.loading)
+            return (<div>Loading..</div>)
+        else    
+        var username=this.props.current.currentUser.username
+        //console.log(this.props.current)
+        */
+       var username = "ajay"
         var token=true
         const style={
             'height':'20px',
@@ -125,7 +152,7 @@ class Nav extends React.Component{
                         {/*<span className="top_p"><Link to='/ajay'><img className="logo" style={style} src={profile} alt="sdf"  /> </Link></span>*/}
                             
                             <span className="top_p">
-                            <Link to={location}><img className="logo" style={style} src={profile} alt="sdf"  /> </Link>
+                            <Link to={username}><img className="logo" style={style} src={profile} alt="sdf"  /> </Link>
                             
                             
                             </span>
@@ -152,10 +179,6 @@ class Nav extends React.Component{
                 
                 </Switch>
                     
-        
-
-
-                
                 <div className="dropdown">
                     <div className="dropdown-content" style={{display:'none'}}>
                             <div>Share External</div>
@@ -169,7 +192,7 @@ class Nav extends React.Component{
                         { token ? (
                             <div className="profile_info _on_bottom">
                             <span className="top_p" style={{color:'black',fontFamily: 'BLKCHCRY',fontSize:'30px'}}><Link to="/">N</Link></span>
-                            <span className="top_p"><Link to='/ajay'><img className="logo" style={style} src={profile} alt="sdf"  /> </Link></span>
+                            <span className="top_p"><Link to={username}><img className="logo" style={style} src={profile} alt="sdf"  /> </Link></span>
                             <span className="top_p"><Link to="/message"><img src={msg} alt="sdf" className="logo" style={style} /> </Link></span>
                             <span className="top_p"><Link to="/notify/"><img src={notify} alt="sdf" className="logo" style={style} /> </Link></span>
                             <span className="top_p"><Link to="#" onClick={this.logout} ><img src={logout} alt="sdf" className="logo" style={style} /> </Link></span>
@@ -188,5 +211,6 @@ class Nav extends React.Component{
         )
     }
 }
-export default Nav
+export default graphql(userqury,{name:'current'})(Nav)
+//graphql(qury,{name:'current'}),
 //export default connect(mapStateToProps,mapDispatchToProps)(Nav);
