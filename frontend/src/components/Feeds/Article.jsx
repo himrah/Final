@@ -77,8 +77,8 @@ export default Article
 
         //el.appendChild("jlkjsdlkjlksdf")
 
-
-        this.props.m.mutate({variables:{comment:this.state.inputcomment,photoid:this.state.keyset,userid:localStorage.getItem('userid')}})
+        //console.log(this.props)
+        this.props.click.m({variables:{comment:this.state.inputcomment,photoid:this.state.keyset,userid:this.props.click.user.currentUser.id}})
         .then(res=>{
             if (res.data.postComment.formErrors == null) {
                 //alert("Your Comment is done!")
@@ -196,7 +196,7 @@ export default Article
         //let server = "http://2b9bcbc6.ngrok.io/"
         let img = server+post.photo
         let prf =server+post.uploadBy.profilePic.profileThumbs
-        
+        console.log(this.props)
         //let img = "http://2010663b.ngrok.io/"+post.photo
         //let prf = "http://2010663b.ngrok.io/"+post.uploadBy.profilePic.profileThumbs
         //let pageInfo = this.props.pageInfo
@@ -741,10 +741,17 @@ const mapDispatchToProps = (dispatch)=>{
         toggle:initialState.toggle
     },dispatch)
 }*/
+const User = gql`query user{
+    currentUser{
+        id
+        username
+    }
+  }`
 
 export default compose(
     connect(mapStateToProps,mapDispatchToProps),
     graphql(MY_QUERY,queryOptions),
-    graphql(UpdateComment)
+    graphql(UpdateComment,{name:'m'}),
+    graphql(User,{name:'user'})
 
 )(Article)

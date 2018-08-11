@@ -107,13 +107,13 @@ class Nav extends React.Component{
     render(){
         //var token=localStorage.getItem('token')
         //console.log(this.props.current.currentUser.username)
-        /*if(this.props.current.loading)
+        if(this.props.current.loading)
             return (<div>Loading..</div>)
         else    
         var username=this.props.current.currentUser.username
         //console.log(this.props.current)
-        */
-       var username = "ajay"
+        
+       //var username = "ajay"
         var token=true
         const style={
             'height':'20px',
