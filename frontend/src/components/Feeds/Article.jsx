@@ -90,11 +90,7 @@ export default Article
                 this.setState({
                     comments:[...this.state.comments,<Comments key={post.comment.id} cmt={post.comment}  />]
                 })
-                //this.setState({comments:})
-                //this.setState(prevState=>({
-                    //comments:[...prevState,res]
-                //}))
-                //console.log("done")
+
             }
             else(
                 console.log(res.data.createMessage.formErrors)
