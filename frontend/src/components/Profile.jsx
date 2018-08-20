@@ -19,6 +19,7 @@ import user from './Images/user.png'
 import web from './Images/web.png'
 import medium from './Images/medium.png'
 import {backend_server} from '../server'
+import Article from './Feeds/ProfileArticle'
 /*
 mutation abc(
   $id:ID!,
@@ -264,9 +265,12 @@ class Profile extends React.Component{
       maxWidth:'33%',
       grid:3,
       isedtable:true,
+      conwidh:"900px",
       edit:'none',
       user:{},
-      first_name:'',      
+      first_name:'',  
+      showfeedarticle:'none',
+      showfeed:'initial'    
     }
     this.onFormSubmit = this.onFormSubmit.bind(this)
     this.onChange = this.onChange.bind(this)
@@ -293,26 +297,6 @@ class Profile extends React.Component{
       //let user = nextProps.data.users
       let user = fromJS(nextProps.data.users)
       console.log(user)
-      //console.log(nextProps.data.users)
-      //let user = nextProps.data.users;
-      //console.log(user)
-      /*this.setState({
-        user:{
-          first_name:user.get('firstName'),
-          last_name:user.get('lastName'),
-          username:user.get('username'),
-          about:user.getIn(['profile','about']),
-          dob:user.getIn(['profile','birthDay']),
-          website:user.getIn(['profile','website']),
-          twitter:user.getIn(['profile','twitter']),
-          fb:user.getIn(['profile','fb']),
-          instagram:user.getIn(['profile','instagram'])
-        }
-      })*/
-      //this.setState({first_name:user.firstName})
-      //this.props.dispatch(User({first_name:user.firstName}))
-      //console.log(user.getIn(['profile','birthDay']))
-      //console.log(nextProps.data)
       this.props.dispatch(
         User(
           {
@@ -334,34 +318,10 @@ class Profile extends React.Component{
 
 
   Updateuser(e){
-    //console.log(e.target.value)
-    /*this.setState({
-      user:{
-        ...this.state.user,
-      }
-    })*/
     this.setState({
       edit:e.show
     })    
-    /*
-    switch(e.target.name){
-      case 'first_name':this.setState({user:{...this.state.user,first_name:e.target.value}});break;
-      case 'last_name':this.setState({user:{...this.state.user,last_name:e.target.value}});break;
-      case 'birthDay':this.setState({user:{...this.state.user,dob:e.target.value}});break;
-      case 'website':this.setState({user:{...this.state.user,website:e.target.value}});break;
-      case 'about':this.setState({user:{...this.state.user,about:e.target.value}});break;
-      case 'twitter':this.setState({user:{...this.state.user,twitter:e.target.value}});break;
-      case 'insta':this.setState({user:{...this.state.user,instagram:e.target.value}});break;
-      case 'fb':this.setState({user:{...this.state.user,fb:e.target.value}});break;
-      default:break;
-    }*/
 
-
-    /*this.setState({
-        edit:e.show
-      })*/
-    
-    //console.log(this.props)
   }
   
 
@@ -397,6 +357,9 @@ class Profile extends React.Component{
 changeWidth(e){
 this.props.dispatch(Gallery({grid:e,width:`${100/e}%`}))
 this.setState({'grid':e,'maxWidth':`${100/e}%`})
+this.setState({'showfeedarticle':'none'})
+this.setState({'showfeed':'initial','conwidth':'900px'})
+
 }
 
 ShowEditInfo(){
@@ -407,6 +370,12 @@ ShowEditInfo(){
   else{
     this.setState({edit:'none'})
   }
+}
+changelook(){
+  //this.setState({'conwidh':'600px'})
+  this.setState({'showfeed':'none'})
+  this.setState({'showfeedarticle':'initial','conwidh':'600px'})
+  console.log("word")
 }
 
 singlechange(f){
@@ -456,8 +425,12 @@ render(){
         //console.log(this.state)
         //console.log(this.state.user)
         let { data, mutate } = this.props
-        if (data.loading || !data.users) {
+        console.log(this.props)
+        if (data.loading) {
           return <div>Loading...</div>
+        }
+        if(!data.users){
+          return<div><h2>Not Found</h2></div>
         }
         const style={
           'borderRadius': '50%',
@@ -617,15 +590,28 @@ render(){
                 <span  onClick={(e)=>this.changeWidth(3)}>3</span>
                 <span  onClick={(e)=>this.changeWidth(4)}>4</span>
                 <span  onClick={(e)=>this.changeWidth(5)}>5</span>
+                <span onClick={(e)=>this.changelook()}>feed</span>
               </div>
             </section>
             <section className="bottom">
             <div className="p_cont">
-            {   
-              <div className="_row">
-                {photo_list.map(p=><Group key={p[0].node.id} Gallery={this.props} maxWidth={this.state.maxWidth} photo={p} />)}
+               
+              <div className="_row" style={{maxWidth:this.state.conwidh}}>
+                  <div style={{display:this.state.showfeed}}>
+                  {
+                    photo_list.map(p=><Group key={p[0].node.id} Gallery={this.props} maxWidth={this.state.maxWidth} photo={p} />)   
+                  }
+                  </div>
+                  <div style={{display:this.state.showfeedarticle}}>
+                  {
+                    <Article/>
+                  }
+                  </div>
+
               </div>
-            }
+
+
+            
             </div>    
             </section>
           </main>

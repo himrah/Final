@@ -266,6 +266,7 @@ class Query(graphene.AbstractType):
 
     all_by_users = graphene.List(PhotoNode,id=graphene.Int())
 
+
     all_photos = graphene.List(PhotoType)
     photos = graphene.Field(PhotoType,id=graphene.ID())
 
@@ -279,6 +280,9 @@ class Query(graphene.AbstractType):
 
     all_comments = graphene.List(CommentType)
     comments = graphene.Field(CommentType,id=graphene.Int(),comment = graphene.String())
+
+    #all_feedbyuser = graphene.List(PhotoType,username=graphene.String())
+    all_feedbyuser = DjangoFilterConnectionField(PhotoNode,username=graphene.String())
 
     all_users = graphene.List(UserType)
     users = graphene.Field(UserType,username = graphene.String())
@@ -331,6 +335,15 @@ class Query(graphene.AbstractType):
         #print(info.context.user.id)
         return Photos.objects.all().order_by('-created_date')
         #return Photos.objects.all()
+
+    def resolve_all_feedbyuser(self,info,**kwargs):
+        username = kwargs.get('username')
+
+        ph=Photos.objects.filter(upload_by_id=User.objects.get(username=username).id).order_by('-created_date')
+        #print(ph)
+        return ph
+
+
 
     def resolve_all_feeds(self,info,search=None,first=None, skip = None, **kwargs):
         qs = Photos.objects.all().order_by('-created_date')

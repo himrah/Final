@@ -85,8 +85,8 @@ import {connect} from 'react-redux'
                 console.log(this.props)
                 let { data, } = this.props.click
                 //console.log(this.props)
-                //console.log(data.allContext.pageInfo.endCursor)
-                //if (data.allContext.pagInfo.hasNextPage){
+                //console.log(data.allFeedbyuser.pageInfo.endCursor)
+                //if (data.allFeedbyuser.pagInfo.hasNextPage){
                     data.fetchMore({
                         query : LoadComment,
                         variables :{
@@ -110,14 +110,14 @@ import {connect} from 'react-redux'
                         }
                         /*
                         updateQuery:(prev,next)=>{
-                            console.log(next.fetchMoreResult.allContext.edges)
-                            const newEdges = next.fetchMoreResult.allContext.edges
-                            const pageInfo = next.fetchMoreResult.allContext.pageInfo
+                            console.log(next.fetchMoreResult.allFeedbyuser.edges)
+                            const newEdges = next.fetchMoreResult.allFeedbyuser.edges
+                            const pageInfo = next.fetchMoreResult.allFeedbyuser.pageInfo
                             this.setState({'hasNextPage':pageInfo.hasNextPage})
                             return{
-                                allContext : {
-                                    __typename:prev.allContext.___typename,
-                                    edges:[...prev.allContext.edges,...newEdges],
+                                allFeedbyuser : {
+                                    __typename:prev.allFeedbyuser.___typename,
+                                    edges:[...prev.allFeedbyuser.edges,...newEdges],
                                     pageInfo
                                 },
                             }
@@ -319,23 +319,25 @@ class Article extends React.Component{
         setTimeout(()=>{
                 //let { data, location } = this.props
                 let { data, } = this.props
+                console.log(this.props)
                 //console.log(this.props)
-                //console.log(data.allContext.pageInfo.endCursor)
-                //if (data.allContext.pagInfo.hasNextPage){
+                //console.log(data.allFeedbyuser.pageInfo.endCursor)
+                //if (data.allFeedbyuser.pagInfo.hasNextPage){
                     data.fetchMore({
                         query : MoreArticle,
                         variables :{
-                            after:data.allContext.pageInfo.endCursor,
+                            after:data.allFeedbyuser.pageInfo.endCursor,
+                            user:this.props.User.username
                         },
                         updateQuery:(prev,next)=>{
-                            //console.log(next.fetchMoreResult.allContext.edges)
-                            const newEdges = next.fetchMoreResult.allContext.edges
-                            const pageInfo = next.fetchMoreResult.allContext.pageInfo
+                            //console.log(next.fetchMoreResult.allFeedbyuser.edges)
+                            const newEdges = next.fetchMoreResult.allFeedbyuser.edges
+                            const pageInfo = next.fetchMoreResult.allFeedbyuser.pageInfo
                             this.setState({'hasNextPage':pageInfo.hasNextPage})
                             return{
-                                allContext : {
-                                    __typename:prev.allContext.___typename,
-                                    edges:[...prev.allContext.edges,...newEdges],
+                                allFeedbyuser : {
+                                    __typename:prev.allFeedbyuser.___typename,
+                                    edges:[...prev.allFeedbyuser.edges,...newEdges],
                                     pageInfo
                                 },
                             }
@@ -347,20 +349,22 @@ class Article extends React.Component{
     handlescroll =() =>{
         //let {data,location} = this.props
         let {data } = this.props
+        console.log(this.props)
         //console.log("hklhjldkf")
         //if (this.scroller && this.scroller.scrollTop < 100){
             data.fetchMore({
                 query:MoreArticle,
                 variables:{
-                    after:data.allContext.pageInfo.endCursor
+                    after:data.allFeedbyuser.pageInfo.endCursor,
+                    user:this.props.click.User.username
                 },
                 updateQuery:(prev,next)=>{
-                    const newEdges = next.fetchMoreResult.allContext.edges
-                    const pageInfo = next.fetchMoreResult.allContext.pageInfo
+                    const newEdges = next.fetchMoreResult.allFeedbyuser.edges
+                    const pageInfo = next.fetchMoreResult.allFeedbyuser.pageInfo
                     return{
-                    allContext : {
-                        __typename:prev.allContext.___typename,
-                        edges:[...prev.allContext.edges,...newEdges],
+                    allFeedbyuser : {
+                        __typename:prev.allFeedbyuser.___typename,
+                        edges:[...prev.allFeedbyuser.edges,...newEdges],
                         pageInfo
                     },
                 }
@@ -369,23 +373,25 @@ class Article extends React.Component{
        // }
     }
     render(){
+        
         //console.log(this.props)
         if(this.props.data.loading){
             return (<div>Loading...</div>)
         }
-        //console.log(this.props)
+        
+        console.log(this.props)
         //console.log(localStorage)
         //const photos = this.props.data.allPhotos;
-        //let pageInfo=this.props.data.allContext.pageInfo
+        //let pageInfo=this.props.data.allFeedbyuser.pageInfo
         //console.log(pageInfo.hasNextPage)
         /*this.setState((pageInfo)=>{
             return {hasNextPage:pageInfo.hasNextPage,cursor:pageInfo.endCursor};
         })*/
 
-        //console.log(this.props.data.allContext.pageInfo.hasNextPage)
+        //console.log(this.props.data.allFeedbyuser.pageInfo.hasNextPage)
         //this.setState({hasNextPage:pageInfo.hasNextPage,cursor:pageInfo.endCursor})
-        const photos = this.props.data.allContext.edges;
-        //const pageInfo = this.props.data.allContext.pageInfo
+        const photos = this.props.data.allFeedbyuser.edges;
+        //const pageInfo = this.props.data.allFeedbyuser.pageInfo
         //const mu = this.props;
         //console.log(this.props)
         //console.log(photos.length)
@@ -445,8 +451,8 @@ class Article extends React.Component{
 
 
 
-const MoreArticle = gql`query allPhotos($after:String!){
-allContext(first:5,after:$after) {
+const MoreArticle = gql`query allPhotos($user:String!,$after:String!){
+allFeedbyuser(first:5,username:$user,after:$after) {
         pageInfo{
             hasNextPage
             endCursor
@@ -515,10 +521,12 @@ allContext(first:5,after:$after) {
 const queryOptions = {
 options: props => ({
     variables: {
-    after:null
+    after:null,
+    user:props.User.username
     },
 }),
 }
+
 
 const LoadComment = gql`query loadcmt($id:ID!,$after:String!){
   photos(id:$id){
@@ -570,8 +578,8 @@ const LoadComment = gql`query loadcmt($id:ID!,$after:String!){
 }
 `
 
-const MY_QUERY = gql`query allPhotos{
-    allContext(first:5) {
+const MY_QUERY = gql`query allFeedbyuser($user:String!){
+    allFeedbyuser(username:$user,first:5) {
         pageInfo{
             hasNextPage
             endCursor
@@ -718,5 +726,4 @@ export default compose(
     graphql(MY_QUERY,queryOptions),
     graphql(UpdateComment,{name:'m'}),
     graphql(User,{name:'user'})
-
 )(Article)

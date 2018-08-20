@@ -110,7 +110,9 @@ class Nav extends React.Component{
         if(this.props.current.loading)
             return (<div>Loading..</div>)
         else    
+        //var username = "ajay"
         var username=this.props.current.currentUser.username
+        //var username = "ajay"
         //console.log(this.props.current)
         
        //var username = "ajay"
