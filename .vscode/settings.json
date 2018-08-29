@@ -1,3 +1,4 @@
 {
-    "python.linting.pylintEnabled": false
+    "python.linting.pylintEnabled": false,
+    "python.pythonPath": "C:\\Users\\Rahul\\.virtualenvs\\python-getting-started-k-xAr3Fy\\Scripts\\python.exe"
 }

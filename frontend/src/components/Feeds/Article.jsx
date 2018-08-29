@@ -12,6 +12,8 @@ import gql from 'graphql-tag'
 import {backend_server} from '../../server'
 import { mapStateToProps,mapDispatchToProps } from '../others/MapsProps'
 import {connect} from 'react-redux'
+import CreatePost from './CreatePost'
+
     class Articles extends React.Component{
 
     constructor(props){
@@ -420,6 +422,8 @@ class Article extends React.Component{
                 <div>
                  {/* {photos.map(p=><Articles key={p.node.id} p={p} m={mu}/>)}*/}
                 {/*this.changeposition(window.scrollY)*/}
+                
+                <CreatePost/>
                 
                 {<InfiniteScroll
                     //pageStart = {0}
