@@ -20,3 +20,9 @@ padding: 10px;
     padding-bottom: 10px;
     padding-top: 10px;
 }
+.top_p>input{
+    display: none;
+}
+.alogo{
+    cursor: pointer;
+}
