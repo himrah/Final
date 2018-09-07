@@ -27,7 +27,7 @@ DEBUG = True
 
 #ALLOWED_HOSTS = ['127.0.0.1', 'localhost','2b9bcbc6.ngrok.io','0305f077.ngrok.io']
 ALLOWED_HOSTS = ['*']
-MEDIA_URL = 'photos/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/photos/')
 
 

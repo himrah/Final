@@ -43,6 +43,8 @@ span{
 .form-control{
     height: 2.2em;
     border-bottom: none;
+    overflow:hidden;
+    display:block;
 
 }
 .form-control:focus,.form-control:hover{

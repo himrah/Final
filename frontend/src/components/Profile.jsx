@@ -243,7 +243,7 @@ class Thumb extends React.Component{
     }
     //console.log(this.props.Gallery.Gallery.gallery)
     //console.log(this.props)
-    let img = server+this.props.photo.thumbs
+    let img = server+'media/'+this.props.photo.thumbs
     //let img = "http://localhost:8000/"+this.props.photo.node.thumbs
     return(
       <div className="thm" style={style}>
@@ -467,7 +467,16 @@ render(){
             var newuser = true
           }
         }
-          console.log(con)
+        if(data.users.profilePic){
+          var profile_pic = server+'media/'+data.users.profilePic.profileThumbs
+        }
+        else{
+          profile_pic=""
+        }
+        console.log(profile_pic)
+          
+        
+        console.log(con)
           return(
           <main className="main">      
           <Helmet>
@@ -509,7 +518,11 @@ render(){
                     </div>
                     <div className="container">
                       <div className="uprf">
-                        <img style={style} src={ server+data.users.profilePic.profileThumbs} alt="profile"/>
+                        
+                        <div style={{backgroundImage:profile_pic}}></div>
+                        {/*
+                        <img style={style} src={ profile_pic} alt="profile"/>
+                        */}
                         <div className="overlay"></div>
                       </div>
 

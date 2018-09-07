@@ -161,8 +161,8 @@ import CreatePost from './CreatePost'
         //console.log(backend_server)
         //console.log(server)
         //let server = "http://2b9bcbc6.ngrok.io/"
-        let img = server+post.photo
-        let prf =server+post.uploadBy.profilePic.profileThumbs
+        let img = server+'media/'+post.photo
+        let prf =server+'media/'+post.uploadBy.profilePic.profileThumbs
         console.log(this.props)
         //let img = "http://2010663b.ngrok.io/"+post.photo
         //let prf = "http://2010663b.ngrok.io/"+post.uploadBy.profilePic.profileThumbs
@@ -423,7 +423,7 @@ class Article extends React.Component{
                  {/* {photos.map(p=><Articles key={p.node.id} p={p} m={mu}/>)}*/}
                 {/*this.changeposition(window.scrollY)*/}
                 
-                <CreatePost/>
+                <CreatePost s={this.props}/>
                 
                 {<InfiniteScroll
                     //pageStart = {0}

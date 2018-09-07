@@ -9,17 +9,17 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from PIL import Image
 #from versatileimagefield.fields import VersatileImageField
-from rest_framework.authtoken.models import Token
+#from rest_framework.authtoken.models import Token
 from django.conf import settings
 
 
 # Create your models here.
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+"""@receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
-
+"""
 
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
@@ -118,9 +118,14 @@ def del_IMG(sender,instance,**kwargs):
 
 class Photos(models.Model):
     caption = models.TextField(null=True)
-    original_photo=models.ImageField(upload_to='photos/original')
+    #original_photo=models.ImageField(upload_to='photos/original')
+    #thumbs = models.ImageField(upload_to='photos/thumbs/')
+    #photo = models.ImageField(upload_to='photos/photo')
+
+    original_photo=models.ImageField(upload_to='photos/original/')
     thumbs = models.ImageField(upload_to='photos/thumbs/')
-    photo = models.ImageField(upload_to='photos/photo')
+    photo = models.ImageField(upload_to='photos/photo/')
+
     created_date=models.DateTimeField(default=datetime.now,null=True)
     upload_by=models.ForeignKey(User,on_delete=models.CASCADE,null=True,related_name="photos")
     def __str__(self):
