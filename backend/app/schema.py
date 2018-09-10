@@ -190,7 +190,8 @@ class UpdateInfo(graphene.Mutation):
             #print("Trre")
             u.first_name = first_name
             u.last_name = last_name
-            p.birth_day = datetime.strptime(dob, "%Y-%m-%d").date()
+            if(dob):
+                p.birth_day = datetime.strptime(dob, "%Y-%m-%d").date()    
             #print(parse_date(dob))
             p.about = about
             p.fb = fb

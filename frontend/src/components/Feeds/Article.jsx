@@ -2,7 +2,6 @@ import React from 'react'
 import './article.css'
 import {graphql,compose} from 'react-apollo'
 import InfiniteScroll from 'react-infinite-scroller';
-//import InfiniteScroll from 'react-infinite-scroll-component';
 import { BrowserRouter as Router, Link } from "react-router-dom"
 import en from 'javascript-time-ago/locale/en'
 import TimeAgo from 'javascript-time-ago'
@@ -13,6 +12,7 @@ import {backend_server} from '../../server'
 import { mapStateToProps,mapDispatchToProps } from '../others/MapsProps'
 import {connect} from 'react-redux'
 import CreatePost from './CreatePost'
+import temp_profile from '../Images/temp_profile.jpeg'
 
     class Articles extends React.Component{
 
@@ -28,18 +28,12 @@ import CreatePost from './CreatePost'
             id:'',
             show:'none',
             pcontent:'op'
-            //hasNextPage : this.props.pageInfo.hasNextPage,
-            //cursor : this.props.pageInfo.endCursor,
-            //uid : localStorage.token
         }
         this.updateInput = this.updateInput.bind(this);
         this.handleClick = this.handleClick.bind(this);
-    }
-    
+    }    
     handletoggle=()=>{
 
-          //console.log(this.props.click.onStClick("sdf"))
-          //console.log(this.props.toggle)
           if (this.props.toggle==='initial'){
             this.props.click.onStClick("none")
           }
@@ -53,7 +47,6 @@ import CreatePost from './CreatePost'
       this.setState({cmt_endcursor:post.comments.pageInfo.endCursor,hasNextPage:post.comments.pageInfo.hasNextPage})
       this.setState({comments:post.comments.edges.map(c=><Comments key={c.node.id} cmt={c.node}  />)})
     }
-
 
     handleSubmit(e){
         e.preventDefault()
@@ -83,12 +76,8 @@ import CreatePost from './CreatePost'
 
     loadItems=(id)=>{
         setTimeout(()=>{
-                //let { data, location } = this.props
                 console.log(this.props)
                 let { data, } = this.props.click
-                //console.log(this.props)
-                //console.log(data.allContext.pageInfo.endCursor)
-                //if (data.allContext.pagInfo.hasNextPage){
                     data.fetchMore({
                         query : LoadComment,
                         variables :{
@@ -110,47 +99,10 @@ import CreatePost from './CreatePost'
                             console.log(next.fetchMoreResult.photos.comments.edges)
 
                         }
-                        /*
-                        updateQuery:(prev,next)=>{
-                            console.log(next.fetchMoreResult.allContext.edges)
-                            const newEdges = next.fetchMoreResult.allContext.edges
-                            const pageInfo = next.fetchMoreResult.allContext.pageInfo
-                            this.setState({'hasNextPage':pageInfo.hasNextPage})
-                            return{
-                                allContext : {
-                                    __typename:prev.allContext.___typename,
-                                    edges:[...prev.allContext.edges,...newEdges],
-                                    pageInfo
-                                },
-                            }
-                        },*/
                 })
             },500);
     }
-    /*
-    View=()=>{
 
-        const store = createStore(reducer,'none')
-        if(this.state.show=='none'){
-            this.setState({show:'initial'})
-            this.setState({pcontent:'ops'})
-            store.dispatch({
-                type:'none',
-                value:'initial'
-            })
-        }
-        else{
-            this.setState({'show':'none'})
-            this.setState({pcontent:'op'})
-            store.dispatch({
-                type:'initial',
-                value:'none'
-            })            
-        }
-        store.subscribe(()=>{
-            console.log("update",store.getState())
-        })
-    }*/
     render(){
         TimeAgo.locale(en)
         const timeAgo = new TimeAgo('en-US')
@@ -162,14 +114,13 @@ import CreatePost from './CreatePost'
         //console.log(server)
         //let server = "http://2b9bcbc6.ngrok.io/"
         let img = server+'media/'+post.photo
-        let prf =server+'media/'+post.uploadBy.profilePic.profileThumbs
-        console.log(this.props)
-        //let img = "http://2010663b.ngrok.io/"+post.photo
-        //let prf = "http://2010663b.ngrok.io/"+post.uploadBy.profilePic.profileThumbs
-        //let pageInfo = this.props.pageInfo
-        //console.log(pageInfo)
-        //this.setState({cursor:pageInfo.endCursor})
-        //console.log(this.state)
+        
+        if(post.uploadBy.profilePic){
+            var prf =server+'media/'+post.uploadBy.profilePic.profileThumbs
+        }
+        else{
+            var prf=temp_profile;
+        }    
         return(
             <article className="article">
                     <header className="img_header">
@@ -206,6 +157,8 @@ import CreatePost from './CreatePost'
                     </header>
                     <div className="scrl">
                     <Router>
+
+        {/*  ---------------------------------------------- image --------------------------------------------------------- */}    
                         <div className="img_content">
                         <a target="_blank" href={img}>
                             <div className="main_img">
@@ -213,7 +166,7 @@ import CreatePost from './CreatePost'
                             </div>
                         </a>
                         </div>
-
+        {/*------------------------------------------------endimage-----------------------------------------------------------*/}
                         </Router>
                         <div className="img_footer">
                         <div className="rating">
@@ -268,7 +221,8 @@ class Article extends React.Component{
         this.state = {
             hasNextPage :true,
             cursor : '',
-            location:0
+            location:0,
+            feeds:[]
             //uid : localStorage.token
         }
     }
@@ -282,27 +236,10 @@ class Article extends React.Component{
                     article:window.scrollY
                 }
         )
-        //console.log(this.state.location)
-        //console.log(e)
-        //console.log(window.scrollY)
-        /*if(e==0){
-            e+=1;
-            this.setState({location:e})
-        }
-        else{
-            this.setState({location:e})
-        }*/
+
     }
     componentDidMount(){
-        //window.scrollTo(0,1975.3333740234375)
-        /*console.log(this.props.Position.article)
-        window.scrollTo(0,this.props.Position.article);
-        console.log(window.scrollY)
-        if(window.scrollY!==0){
-        if(this.props.Position.article)
-          {  window.addEventListener("scroll",this.changeposition.bind(this))
-          }
-    }*/
+    console.log(this.props)
     }
     updateStat(pageInfo){
         this.setState({hasNextPage:pageInfo.hasNextPage,cursor:pageInfo.endCursor})
@@ -319,18 +256,13 @@ class Article extends React.Component{
 
     loadItems(){
         setTimeout(()=>{
-                //let { data, location } = this.props
                 let { data, } = this.props
-                //console.log(this.props)
-                //console.log(data.allContext.pageInfo.endCursor)
-                //if (data.allContext.pagInfo.hasNextPage){
                     data.fetchMore({
                         query : MoreArticle,
                         variables :{
                             after:data.allContext.pageInfo.endCursor,
                         },
                         updateQuery:(prev,next)=>{
-                            //console.log(next.fetchMoreResult.allContext.edges)
                             const newEdges = next.fetchMoreResult.allContext.edges
                             const pageInfo = next.fetchMoreResult.allContext.pageInfo
                             this.setState({'hasNextPage':pageInfo.hasNextPage})
@@ -347,10 +279,7 @@ class Article extends React.Component{
     }
 
     handlescroll =() =>{
-        //let {data,location} = this.props
         let {data } = this.props
-        //console.log("hklhjldkf")
-        //if (this.scroller && this.scroller.scrollTop < 100){
             data.fetchMore({
                 query:MoreArticle,
                 variables:{
@@ -368,54 +297,15 @@ class Article extends React.Component{
                 }
                 }
             })
-       // }
     }
     render(){
-        //console.log(this.props)
         if(this.props.data.loading){
             return (<div>Loading...</div>)
         }
-        //console.log(this.props)
-        //console.log(localStorage)
-        //const photos = this.props.data.allPhotos;
-        //let pageInfo=this.props.data.allContext.pageInfo
-        //console.log(pageInfo.hasNextPage)
-        /*this.setState((pageInfo)=>{
-            return {hasNextPage:pageInfo.hasNextPage,cursor:pageInfo.endCursor};
-        })*/
 
-        //console.log(this.props.data.allContext.pageInfo.hasNextPage)
-        //this.setState({hasNextPage:pageInfo.hasNextPage,cursor:pageInfo.endCursor})
         const photos = this.props.data.allContext.edges;
-        //const pageInfo = this.props.data.allContext.pageInfo
-        //const mu = this.props;
-        //console.log(this.props)
-        //console.log(photos.length)
-        //console.log(photos)
-        //console.log(this.state)
-        //this.updateStat(pageInfo)
-        //console.log(photos)
-        //console.log(this.props)
-        //var items=[]
-        //items.push(photos.map(p=><Articles key={p.node.id} p={p} m={mu}/>))
-
-        //var loader = <div>Loading</div>
-        //var ending = <div>ending</div>
-        //console.log("new")
-        //console.log(this.count)
-        /*
-            pullDownToRefreshContent={
-                <h3 style={{textAlign: 'center'}}>&#8595; Pull down to refresh</h3>
-                }
-                releaseToRefreshContent={
-                <h3 style={{textAlign: 'center'}}>&#8593; Release to refresh</h3>
-                }
-
-        */
-       //var item=[]
-       //item.push(photos.map(p=><Articles key={p.id} p={p} m={mu} />))
-       //console.log(photos)
-       //console.log(window.scrollY)
+        //const feeds = photos
+        console.log(photos)
        
         return(
                 
@@ -426,17 +316,10 @@ class Article extends React.Component{
                 <CreatePost s={this.props}/>
                 
                 {<InfiniteScroll
-                    //pageStart = {0}
-                    //next = {this.loadMore}
-                    //hasMore = {this.state.hasNextPage}
-                    //useWindow = {true}
-                    //dataLength = {5}
                     hasMore = {this.state.hasNextPage}
                     loadMore = {this.loadItems.bind(this)}
                     loader="<h1>Loading..</h1>"
                     threshold = {1200}
-                    
-                    //endMessage = {ending}
                     >
                     <div>{photos.map(p=><Articles click={this.props} toggle={this.props.toggle} key={p.node.id} p={p} />)}</div>
                 </InfiniteScroll>}
@@ -444,8 +327,6 @@ class Article extends React.Component{
         );
     }
 }
-
-
 
 
 

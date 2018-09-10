@@ -19,7 +19,7 @@ class CommentSerializer(serializers.HyperlinkedModelSerializer):
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Photos
-        fields = ('id','original_photo','photo','thumbs','upload_by')
+        fields = ('id','caption','original_photo','photo','thumbs','upload_by')
         read_only_fields = ('photo','thumbs','upload_by')
 
 

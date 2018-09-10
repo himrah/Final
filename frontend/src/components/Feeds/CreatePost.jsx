@@ -13,7 +13,9 @@ class CreatePost extends Component {
         this.state = {
             image_link:'',
             image_link1:'',
-            post_btn:'none'
+            post_btn:'none',
+            caption:"",
+            
         }
         this.handlesubmit = this.handlesubmit.bind(this)
     }
@@ -22,8 +24,6 @@ class CreatePost extends Component {
         var el = this;
         setTimeout(function(){
           el.style.cssText = 'height:auto; padding:0';
-          // for box-sizing other than "content-box" use:
-          // el.style.cssText = '-moz-box-sizing:content-box';
           el.style.cssText = 'height:' + el.scrollHeight + 'px';
         },0);
       }
@@ -41,39 +41,13 @@ class CreatePost extends Component {
         console.log(this.state.image_link1)
         const formData = new FormData()
         formData.append("original_photo",this.state.image_link1,this.state.image_link1.name)
+        formData.append("caption",this.state.caption)
         console.log(formData)
         var url="http://localhost:8000/api/post/"
-
         const token = localStorage.getItem('token')
-
         console.log(token)
-        const defaultOptions = {
-            headers: {
-                Authorization: token ? `Token ${token}` : '',
-            },
-        };
         axios.defaults.headers.common['Authorization']=`JWT ${token}`
-
-
         axios.post(url,formData)
-
-        /*
-        var files = e.target.files[0]
-        var form = new FormData()
-        form.append("file",files)
-        var url="http://localhost:8000/api/post/",
-        conifg={
-        headers :{
-            'accept': 'application/json',
-            'Accept-Language': 'en-US,en;q=0.8',
-            'Content-Type': 'multipart/form-data;'
-        }
-        }
-
-        axios.post(url,form,conifg).then(
-            console.log("here")
-        )*/
-
 
     }
 
@@ -87,14 +61,10 @@ class CreatePost extends Component {
         this.setState({image_link:URL.createObjectURL(files),post_btn:"initial",image_link1:e.target.files[0]})
 
 
-        /*for(var i=0;i<e.target.files.length;i++){
-            console.log(i)
-            this.setState({
-                image_link:[...this.state.image_link,URL.createObjectURL(e.target.files[i])]
-            })
-        }*/
-
         console.log(this.state.image_link)
+    }
+    updatecaption(e){
+        this.setState({caption:e.target.value})
     }
   render() {
 
@@ -109,10 +79,9 @@ class CreatePost extends Component {
           </header>
             <div className="postform">
                 <form id="createpost">
-                    <textarea className="form-control" placeholder="write something" name="post"/>
+                    <textarea className="form-control" placeholder="write something" name="post" onChange={this.updatecaption.bind(this)}/>
                 </form>
                 </div>
-
 
             <div className="user-post">
                 <div className="_p">

@@ -2,14 +2,14 @@ import React from 'react'
 import './article.css'
 import {graphql,compose} from 'react-apollo'
 import InfiniteScroll from 'react-infinite-scroller';
-//import InfiniteScroll from 'react-infinite-scroll-component';
 import { BrowserRouter as Router, Link } from "react-router-dom"
 import en from 'javascript-time-ago/locale/en'
 import TimeAgo from 'javascript-time-ago'
-//import { graphql, compose } from 'react-apollo'
 import Comments from './comments'
 import gql from 'graphql-tag'
 import {backend_server} from '../../server'
+import temp_profile from '../Images/temp_profile.jpeg'
+
 import { mapStateToProps,mapDispatchToProps } from '../others/MapsProps'
 import {connect} from 'react-redux'
     class Articles extends React.Component{
@@ -159,8 +159,14 @@ import {connect} from 'react-redux'
         //console.log(backend_server)
         //console.log(server)
         //let server = "http://2b9bcbc6.ngrok.io/"
-        let img = server+post.photo
-        let prf =server+post.uploadBy.profilePic.profileThumbs
+        let img = server+'media/'+post.photo
+        
+        if(post.uploadBy.profilePic){
+        var prf =server+'media/'+post.uploadBy.profilePic.profileThumbs
+        }
+        else{
+            var prf=temp_profile
+        }
         console.log(this.props)
         //let img = "http://2010663b.ngrok.io/"+post.photo
         //let prf = "http://2010663b.ngrok.io/"+post.uploadBy.profilePic.profileThumbs

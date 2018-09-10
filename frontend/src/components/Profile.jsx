@@ -12,6 +12,7 @@ import {Link} from 'react-router-dom'
 import {Map,fromJS} from 'immutable'
 import Edit from './profileEdit'
 import fb from './Images/fb.png'
+import temp_profile from './Images/temp_profile.jpeg'
 import instagram from './Images/instagram.png'
 import twitter from './Images/twitter.png'
 import about from './Images/ab.png'
@@ -471,7 +472,7 @@ render(){
           var profile_pic = server+'media/'+data.users.profilePic.profileThumbs
         }
         else{
-          profile_pic=""
+          profile_pic=temp_profile
         }
         console.log(profile_pic)
           
@@ -518,11 +519,10 @@ render(){
                     </div>
                     <div className="container">
                       <div className="uprf">
-                        
-                        <div style={{backgroundImage:profile_pic}}></div>
-                        {/*
+
+                        {
                         <img style={style} src={ profile_pic} alt="profile"/>
-                        */}
+                        }
                         <div className="overlay"></div>
                       </div>
 
