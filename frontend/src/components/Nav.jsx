@@ -110,7 +110,7 @@ class Nav extends React.Component{
         if(this.props.current.loading)
             return (<div>Loading..</div>)
         else    
-        var username = "ajay"
+        var username = "bebo"
         //var username=this.props.current.currentUser.username
         //var username = "ajay"
         //console.log(this.props.current)
@@ -137,13 +137,13 @@ class Nav extends React.Component{
                 <Router ignoreScrollBehavior>
                     <span className="m_con">  
                         <Helmet>
-                            <title>NiXiS</title>
+                            <title>Bebo</title>
                         </Helmet>
                     <nav className="nav">
                         <div className="navdiv">
                             <div className="brand">
                                 <span className="header_font">            
-                                    <Link to="/"><span style={{color:'red'}}>NiXiS</span> </Link>
+                                    <Link to="/"><span style={{color:'red'}}>Bebo</span> </Link>
                                 </span>
                             </div>
                         
@@ -175,8 +175,10 @@ class Nav extends React.Component{
                     
                 <Switch>            
                 
-                <Route name="home" exact path="/" component={Main} />
+                {<Route name="home" exact path="/" component={Main} />}
+                {/*<Route name="home" path="/" component={Profile} />*/}
                 <Route name="messaging" path="/message/" component={Msg} />
+
                 <Route name="profile" path="/:userName/" component={Profile} />
                 
                 </Switch>

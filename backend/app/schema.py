@@ -290,7 +290,7 @@ class Query(graphene.AbstractType):
 
     current_user = graphene.Field(UserType)
 
-    all_interest = graphene.Field(InterestType,username=graphene.String())
+    #all_interest = graphene.Field(InterestType,username=graphene.String())
 
 
     all_context = DjangoFilterConnectionField(PhotoNode)

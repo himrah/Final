@@ -26,3 +26,17 @@ padding: 10px;
 .alogo{
     cursor: pointer;
 }
+.post_{
+    display: initial;
+    min-width: 100%;
+}
+._p{
+    flex-flow: row;
+    overflow: auto;
+}
+.show_image{
+    /*width: 90%;*/
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}

@@ -4,7 +4,6 @@ chardet==3.0.4
 Django==1.11.15
 django-cors-headers==2.4.0
 django-filter==1.1.0
-django-versatileimagefield==1.9
 django-webpack-loader==0.6.0
 djangorestframework==3.8.2
 djangorestframework-jwt==1.11.0
@@ -15,7 +14,6 @@ graphql-relay==0.4.5
 idna==2.7
 iso8601==0.1.12
 oauthlib==2.1.0
-Pillow==5.0.0
 promise==2.1
 PyJWT==1.6.4
 python-openid==2.2.5

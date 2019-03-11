@@ -1,0 +1,22 @@
+{
+    "short_name": "Bebo",
+    "name": "My Bebo",
+    "icons": [
+      {
+        "src": "components/Images/fb.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "components/Images/fb.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "/bebo/?source=pwa",
+    "background_color": "#3367D6",
+    "display": "standalone",
+    "scope": "/bebo/",
+    "theme_color": "#3367D6"
+  }
+  

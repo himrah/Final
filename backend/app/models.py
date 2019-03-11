@@ -128,6 +128,10 @@ class Photos(models.Model):
 
     created_date=models.DateTimeField(default=datetime.now,null=True)
     upload_by=models.ForeignKey(User,on_delete=models.CASCADE,null=True,related_name="photos")
+    height = models.CharField(blank=True,max_length=30)
+    width = models.CharField(blank=True,max_length=30)
+
+
     def __str__(self):
         return str(self.upload_by)+' : '+str(self.created_date)
     def save(self,force_insert=False,force_update=False, using=None):
@@ -138,13 +142,15 @@ class Photos(models.Model):
         if im.size[0]<=700:
             basewidth = im.size[0]
         else:
-            basewidth = 700   
+            basewidth = 600   
 
         #img = Image.open('somepic.jpg')
         wpercent = (basewidth/float(im.size[0]))
         hsize = int((float(im.size[1])*float(wpercent)))
         im = im.resize((basewidth,hsize), Image.ANTIALIAS)      
         im = im.convert("RGB")
+        self.height = im.height
+        self.width = im.width
         im.save(output, format='JPEG', quality=70)
         
         self.photo = InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.original_photo.name.split('.')[0], 'image/jpeg', sys.getsizeof(output), None)

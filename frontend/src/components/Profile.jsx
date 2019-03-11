@@ -21,7 +21,10 @@ import web from './Images/web.png'
 import medium from './Images/medium.png'
 import {backend_server} from '../server'
 import Article from './Feeds/ProfileArticle'
+import GrideImage from './GrideImage'
+
 /*
+
 mutation abc(
   $id:ID!,
   $website:String!,
@@ -227,6 +230,8 @@ class Edits extends React.Component{
 //const server = "http://2b9bcbc6.ngrok.io/"
 const server = backend_server
 
+
+/*
 class Thumb extends React.Component{
   constructor(props){
     super(props);
@@ -252,7 +257,7 @@ class Thumb extends React.Component{
       </div>
     )
   }
-}
+}*/
 
 
 
@@ -281,7 +286,7 @@ class Profile extends React.Component{
 
   componentDidMount = () => {
     //console.log(this.props)
-    console.log(this.props)
+    /*console.log(this.props)*/
     this.setState(
       {
         grid:this.props.Gallery.grid,
@@ -291,13 +296,13 @@ class Profile extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(this.props)
-    console.log(nextProps)
+    /*console.log(this.props)
+    console.log(nextProps)*/
     if(this.props.data.users!=nextProps.data.users)
     {
       //let user = nextProps.data.users
       let user = fromJS(nextProps.data.users)
-      console.log(user)
+      /*console.log(user)*/
       this.props.dispatch(
         User(
           {
@@ -329,9 +334,9 @@ class Profile extends React.Component{
   onFormSubmit(e){
     e.preventDefault()
     this.fileUpload(this.state.file).then((response)=>{
-      console.log(response.data);
+      //console.log(response.data);
     }).catch(function(error){
-      console.log(error) 
+      //console.log(error) 
     })
   }
 
@@ -359,8 +364,9 @@ changeWidth(e){
 this.props.dispatch(Gallery({grid:e,width:`${100/e}%`}))
 this.setState({'grid':e,'maxWidth':`${100/e}%`})
 this.setState({'showfeedarticle':'none'})
-this.setState({'showfeed':'initial','conwidth':'900px'})
-
+this.setState({'showfeed':'initial'})
+this.setState({'conwidh':'900px'})
+console.log(this.state)
 }
 
 ShowEditInfo(){
@@ -387,8 +393,8 @@ singlechange(f){
   //console.log(f.elements.first_name.value)
   //console.log(formData)
   //console.log(e.target.name)
-  console.log(f.elements.first_name.value)
-  console.log(this.props)
+  //console.log(f.elements.first_name.value)
+  //console.log(this.props)
   this.props.dispatch(User({
     //first_name:(e.target.name==="first_name")?e.target.value:"",
     //last_name:(e.target.name==="last_name")?e.target.value:""
@@ -426,7 +432,7 @@ render(){
         //console.log(this.state)
         //console.log(this.state.user)
         let { data, mutate } = this.props
-        console.log(this.props)
+        /*console.log(this.props)*/
         if (data.loading) {
           return <div>Loading...</div>
         }
@@ -453,7 +459,7 @@ render(){
         let users = fromJS(data.users)
         let U = this.props.User
         //let users = this.props.User
-        console.log(this.props.User)
+        /*console.log(this.props.User)*/
         if(!this.props.current.loading && !this.props.data.loading)
         {
           if(this.props.current.currentUser){ 
@@ -474,10 +480,10 @@ render(){
         else{
           profile_pic=temp_profile
         }
-        console.log(profile_pic)
+        /*console.log(profile_pic)*/
           
         
-        console.log(con)
+        /*console.log(con)*/
           return(
           <main className="main">      
           <Helmet>
@@ -612,7 +618,8 @@ render(){
               <div className="_row" style={{maxWidth:this.state.conwidh}}>
                   <div style={{display:this.state.showfeed}}>
                   {
-                    photo_list.map(p=><Group key={p[0].node.id} Gallery={this.props} maxWidth={this.state.maxWidth} photo={p} />)   
+                    /*photo_list.map(p=><Group key={p[0].node.id} Gallery={this.props} maxWidth={this.state.maxWidth} photo={p} />)   */
+                    <GrideImage maxWidth={this.state.maxWidth} grid = {this.state.grid} Gallery={this.props}/>
                   }
                   </div>
                   <div style={{display:this.state.showfeedarticle}}>
@@ -636,7 +643,7 @@ render(){
 
 
 
-class Group extends React.Component{
+/*class Group extends React.Component{
   render(){
     return(
       <div className="fl_rw _group">
@@ -648,12 +655,12 @@ class Group extends React.Component{
       </div>
     )
   }  
-}
+}*/
 
 const queryOptions = {
   options: props => ({
     variables: {
-      username: props.match.params.userName,
+      username: (props.match.params.userName=='bebo')?props.match.params.userName:'bebo',
     },
   }),
 }
