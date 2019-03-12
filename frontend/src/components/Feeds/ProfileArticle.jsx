@@ -196,7 +196,7 @@ class Article extends React.Component{
             hasNextPage :true,
             cursor : '',
             location:0,
-            length:9,
+            length:30,
             pics:[],
             //uid : localStorage.token
         }
@@ -266,7 +266,7 @@ class Article extends React.Component{
                             const pageInfo = next.fetchMoreResult.allFeedbyuser.pageInfo
                             let len = this.state.length;
 
-                            this.setState({'hasNextPage':pageInfo.hasNextPage,length:len+9})
+                            this.setState({'hasNextPage':pageInfo.hasNextPage,length:len+30})
                             newEdges.map(p=>{
                                 this.setState(prevstate=>({
                                     pics:[...prevstate.pics,p]
@@ -400,7 +400,7 @@ class Article extends React.Component{
 
 
 const MoreArticle = gql`query allPhotos($user:String!,$after:String!){
-allFeedbyuser(first:9,username:$user,after:$after) {
+allFeedbyuser(first:30,username:$user,after:$after) {
         pageInfo{
             hasNextPage
             endCursor
@@ -528,7 +528,7 @@ const LoadComment = gql`query loadcmt($id:ID!,$after:String!){
 `
 
 const MY_QUERY = gql`query allFeedbyuser($user:String!){
-    allFeedbyuser(username:$user,first:9) {
+    allFeedbyuser(username:$user,first:30) {
         pageInfo{
             hasNextPage
             endCursor

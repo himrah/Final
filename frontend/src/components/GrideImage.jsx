@@ -89,7 +89,7 @@ class GrideImage extends React.Component{
             location:0,
             feeds:[],
             grid:3,
-            length:9,
+            length:30,
             //uid : localStorage.token
         }
     }
@@ -114,7 +114,7 @@ class GrideImage extends React.Component{
                             const newEdges = next.fetchMoreResult.allContext.edges
                             const pageInfo = next.fetchMoreResult.allContext.pageInfo
                             let len = this.state.length
-                            this.setState({'hasNextPage':pageInfo.hasNextPage,length:len+9})
+                            this.setState({'hasNextPage':pageInfo.hasNextPage,length:len+30})
                             return{
                                 allContext : {
                                     __typename:prev.allContext.___typename,
@@ -171,7 +171,7 @@ class GrideImage extends React.Component{
 }
 
 const MORE_PIC = gql`query allPhotos ($after:String!){
-    allContext(first:9,after:$after) {
+    allContext(first:30,after:$after) {
       pageInfo {
         hasNextPage
         endCursor
@@ -192,7 +192,7 @@ const MORE_PIC = gql`query allPhotos ($after:String!){
 
 
 const MY_QUERY = gql`query allPhotos {
-    allContext (first:9){
+    allContext (first:30){
       pageInfo {
         hasNextPage
         endCursor
