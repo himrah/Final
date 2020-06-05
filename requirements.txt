@@ -1,7 +1,7 @@
 aniso8601==3.0.2
 certifi==2018.8.13
 chardet==3.0.4
-Django==1.11.15
+Django==1.11.29
 django-cors-headers==2.4.0
 django-filter==1.1.0
 django-webpack-loader==0.6.0
