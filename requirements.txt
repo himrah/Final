@@ -15,7 +15,7 @@ idna==2.7
 iso8601==0.1.12
 oauthlib==2.1.0
 promise==2.1
-PyJWT==1.6.4
+PyJWT==2.4.0
 python-openid==2.2.5
 python-social-auth==0.3.6
 pytz==2018.5
